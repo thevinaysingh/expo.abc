@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   AsyncStorage,
+  Text,
 } from 'react-native';
 import ListItem from '../../components/ListItem';
 import ListSeparator from '../../components/ListSeparator';
@@ -61,6 +62,13 @@ export default class CharlieScreen extends React.Component {
   render() {
     return (
       <View style={styles.mainContainer}>
+        {this.state.charlieList.length === 0 &&
+          <Text
+            style={{
+              paddingVertical: 30,
+              paddingHorizontal: 15,
+            }}
+          >{Locales.CHARLIE.no_items}</Text>}
         <FlatList
           style={{ flex: 1, alignSelf: 'stretch', marginHorizontal: 20 }}
           data={this.state.charlieList} 
