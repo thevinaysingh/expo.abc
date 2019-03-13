@@ -4,11 +4,11 @@ import {
   View,
 } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
-import { Locales } from '../constants/locales.js';
-import TwoButtonFooter from '../components/TwoButtonFooter.js';
+import { Locales } from '../../constants/locales.js';
+import TwoButtonFooter from '../../components/TwoButtonFooter.js';
 
 
-export default class AddAlpha extends React.Component {
+export default class AddCharlie extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

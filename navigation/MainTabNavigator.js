@@ -4,11 +4,16 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 
-import AlphaScreen from '../screens/AlphaScreen';
-import AddAlpha from '../screens/AddAlpha';
+import AlphaScreen from '../screens/alpha/AlphaScreen';
+import AddAlpha from '../screens/alpha/AddAlpha';
 
-import LinksScreen from '../screens/BravoScreen';
-import SettingsScreen from '../screens/CharlieScreen';
+import LinksScreen from '../screens/bravo/BravoScreen';
+import AddBravo from '../screens/bravo/AddBravo';
+
+
+import SettingsScreen from '../screens/charlie/CharlieScreen';
+import AddCharlie from '../screens/charlie/AddCharlie';
+
 import { Locales } from '../constants/locales';
 
 const HomeStack = createStackNavigator({
@@ -38,6 +43,13 @@ HomeStack.navigationOptions = {
 
 const LinksStack = createStackNavigator({
   Links: LinksScreen,
+  AddBravo: {
+    screen: AddBravo,
+    key: 'AddBravoScreen',
+    navigationOptions: {
+      title: Locales.ADD_BRAVO.title,
+    },
+  },
 });
 
 LinksStack.navigationOptions = {
@@ -52,6 +64,13 @@ LinksStack.navigationOptions = {
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
+  AddCharlie: {
+    screen: AddCharlie,
+    key: 'AddCharlieScreen',
+    navigationOptions: {
+      title: Locales.ADD_CHARLIE.title,
+    },
+  },
 });
 
 SettingsStack.navigationOptions = {

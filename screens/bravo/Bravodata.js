@@ -1,0 +1,15 @@
+export default [
+    {'name': 'Bravo item 1', 'id': 1},
+    {'name': 'Bravoitem 2', 'id': 2},
+    {'name': 'Bravo item 3', 'id': 3},
+    {'name': 'Bravo item 4', 'id': 4},
+    {'name': 'Bravo item 5', 'id': 5},
+    {'name': 'Bravo item 6', 'id': 6},
+    {'name': 'Bravo item 7', 'id': 7},
+    {'name': 'Bravo item 8', 'id': 8},
+    {'name': 'Bravo item 9', 'id': 9},
+    {'name': 'Bravo item 10', 'id': 10},
+    {'name': 'Bravo item 11', 'id': 11},
+    {'name': 'Bravo item 12', 'id': 12},
+    {'name': 'Bravo item 13', 'id': 13},
+];

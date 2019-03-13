@@ -4,27 +4,27 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import routines_data  from './Alphadata.js';
-import ListItem from '../components/ListItem';
-import ListSeparator from '../components/ListSeparator';
-import FloatingButton from '../components/FloatingButton.js';
-import { Locales } from '../constants/locales.js';
+import routines_data  from './Charliedata';
+import ListItem from '../../components/ListItem';
+import ListSeparator from '../../components/ListSeparator';
+import FloatingButton from '../../components/FloatingButton.js';
+import { Locales } from '../../constants/locales.js';
 
 
-export default class HomeScreen extends React.Component {
+export default class CharlieScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alphaList: Array.from(routines_data),
+      charlieList: Array.from(routines_data),
     };
   }
 
   static navigationOptions = {
-    title: Locales.ALPHA.title,
+    title: Locales.CHARLIE.title,
   };
 
   onPress() {
-    this.props.navigation.navigate("AddAlpha")
+    this.props.navigation.navigate("AddCharlie")
   }
 
   render() {
@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
       <View style={styles.mainContainer}>
         <FlatList
           style={{ flex: 1, alignSelf: 'stretch', marginHorizontal: 20 }}
-          data={this.state.alphaList} 
+          data={this.state.charlieList} 
           extraData={this.state}
           keyExtractor={(item, index) => item.id.toString()}       
           renderItem={({ item }) => <ListItem item={item} /> }

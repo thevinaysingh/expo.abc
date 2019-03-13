@@ -24,7 +24,7 @@ export const Locales = {
         cancel: "Cancel",
         save: "Save",
         name: "Name",
-        type: "type",
+        type: "Type",
         number: "Number",
         alpha_amount: "Alpha Amount",
         bravo_amount: "Bravo Amount"
