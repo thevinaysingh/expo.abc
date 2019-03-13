@@ -3,28 +3,59 @@ import {
   FlatList,
   StyleSheet,
   View,
+  AsyncStorage,
 } from 'react-native';
-import routines_data  from './Alphadata.js';
 import ListItem from '../../components/ListItem';
 import ListSeparator from '../../components/ListSeparator';
 import FloatingButton from '../../components/FloatingButton.js';
 import { Locales } from '../../constants/locales.js';
+import MenuIcon from '../../components/MenuIcon.js';
 
 
 export default class AlphaScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alphaList: Array.from(routines_data),
+      alphaList: [],
     };
   }
 
-  static navigationOptions = {
-    title: Locales.ALPHA.title,
+  componentWillMount() {
+    this._retrieveData();
+  }
+
+  _storeData = async (newJson) => {
+    const { alphaList } = this.state;
+    alphaList.push(newJson);
+    try {
+      await AsyncStorage.setItem('ALPHA_DATA', JSON.stringify(alphaList));
+      this.setState({ alphaList });
+    } catch (error) {
+      console.warn(error);
+      // Error saving data
+    }
   };
 
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('ALPHA_DATA');
+      if (value !== null) {
+        this.setState({
+          alphaList: Array.from(JSON.parse(value)),
+        })
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  static navigationOptions = ({ navigation }) => ({
+    title: Locales.ALPHA.title,
+    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} />)
+  });
+
   onPress() {
-    this.props.navigation.navigate("AddAlpha")
+    this.props.navigation.navigate("AddAlpha", { onSave: this._storeData })
   }
 
   render() {

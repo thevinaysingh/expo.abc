@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 const ListItem = props => (
-    <View style={{ flex:1, flexDirection:'row' }}>
+    <View style={{ flex:1, flexDirection:'row', borderBottomWidth: 1, borderBottomColor: 'lightgrey' }}>
       <View style={{ alignSelf: 'stretch', flex:1, height:80, justifyContent:'center' }}>
         <Text style={styles.name}>{props.item.name}</Text>
       </View>

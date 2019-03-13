@@ -7,17 +7,18 @@ import TabBarIcon from '../components/TabBarIcon';
 import AlphaScreen from '../screens/alpha/AlphaScreen';
 import AddAlpha from '../screens/alpha/AddAlpha';
 
-import LinksScreen from '../screens/bravo/BravoScreen';
+import BravoScreen from '../screens/bravo/BravoScreen';
 import AddBravo from '../screens/bravo/AddBravo';
 
-
-import SettingsScreen from '../screens/charlie/CharlieScreen';
+import CharlieScreen from '../screens/charlie/CharlieScreen';
 import AddCharlie from '../screens/charlie/AddCharlie';
+
+import Settings from '../screens/Settings';
 
 import { Locales } from '../constants/locales';
 
-const HomeStack = createStackNavigator({
-  Home: AlphaScreen,
+const AlphaStack = createStackNavigator({
+  Alpha: AlphaScreen,
   AddAlpha: {
     screen: AddAlpha,
     key: 'AddAlphaScreen',
@@ -25,24 +26,36 @@ const HomeStack = createStackNavigator({
       title: Locales.ADD_ALPHA.title,
     },
   },
+  Settings: {
+    screen: Settings,
+    key: 'SettingsScreen'
+  },
 });
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Alpha',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
+AlphaStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible,
+    tabBarLabel: 'Alpha',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={
+          Platform.OS === 'ios'
+            ? `ios-information-circle${focused ? '' : '-outline'}`
+            : 'md-information-circle'
+        }
+      />
+    ),
+  };
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const BravoStack = createStackNavigator({
+  Bravo: BravoScreen,
   AddBravo: {
     screen: AddBravo,
     key: 'AddBravoScreen',
@@ -52,18 +65,26 @@ const LinksStack = createStackNavigator({
   },
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Bravo',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
+BravoStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible,
+    tabBarLabel: 'Bravo',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      />
+    ),
+  };
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const CharlieStack = createStackNavigator({
+  Charlie: CharlieScreen,
   AddCharlie: {
     screen: AddCharlie,
     key: 'AddCharlieScreen',
@@ -73,18 +94,26 @@ const SettingsStack = createStackNavigator({
   },
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Charlie',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
+CharlieStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible,
+    tabBarLabel: 'Charlie',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      />
+    ),
+  };
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
+  AlphaStack,
+  BravoStack,
+  CharlieStack,
 });

@@ -2,11 +2,12 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  Alert,
 } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import { Locales } from '../../constants/locales.js';
 import TwoButtonFooter from '../../components/TwoButtonFooter.js';
-
+import { Images } from '../../assets/images/index.js';
 
 export default class AddCharlie extends React.Component {
   constructor(props) {
@@ -24,7 +25,16 @@ export default class AddCharlie extends React.Component {
   }
 
   onSave() {
-    // TODO:
+    if(this.state.name.trim() === "" || this.state.number.trim() === "") {
+      Alert.alert('Fill all fields');
+      return;
+    }
+    this.props.navigation.state.params.onSave({
+      name: this.state.name,
+      number: this.state.number,
+      id: Date.now().toString(),
+    });
+    this.props.navigation.goBack();
   }
 
   render() {

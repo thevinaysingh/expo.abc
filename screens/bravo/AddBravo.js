@@ -2,7 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
+  Alert,
 } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import { Dropdown } from 'react-native-material-dropdown';
@@ -42,9 +42,9 @@ export default class AddBravo extends React.Component {
     super(props);
     this.state = {
       name: '',
-      type: typeData[0].value,
-      alphaAmount: amount[0].value,
-      bravoAmount: amount[0].value,
+      type: '',
+      alphaAmount: '',
+      bravoAmount: '',
     };
   }
 
@@ -61,7 +61,19 @@ export default class AddBravo extends React.Component {
   }
 
   onSave() {
-    // TODO:
+    if(this.state.name.trim() === "" || this.state.type.trim() === ""
+    || this.state.bravoAmount.trim() === "" || this.state.alphaAmount.trim() === "" ) {
+      Alert.alert('Fill all fields');
+      return;
+    }
+    this.props.navigation.state.params.onSave({
+      name: this.state.name,
+      type: this.state.type,
+      id: Date.now().toString(),
+      bravo_amount: this.state.bravoAmount,
+      alpha_amount: this.state.alphaAmount,
+    });
+    this.props.navigation.goBack();
   }
 
   render() {

@@ -1,9 +1,23 @@
 import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator, createAppContainer } from 'react-navigation';
+import DrawerScreen from '../screens/sidebar/DrawerScreen';
 import MainTabNavigator from './MainTabNavigator';
 
-export default createAppContainer(createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
+const DrawerNavigator = createDrawerNavigator({
+  Home: { screen: MainTabNavigator },
+},{
+  initialRouteName: 'Home',
+  contentComponent: DrawerScreen,
+  drawerWidth: 300
+});
+
+const StackNavigator = createAppContainer(createStackNavigator({
+  DrawerNavigator: {
+      screen: DrawerNavigator,
+      navigationOptions: {
+        header: null
+    }
+  }
 }));
+
+export default StackNavigator;

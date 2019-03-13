@@ -27,6 +27,7 @@ export const Locales = {
         type: "Type",
         number: "Number",
         alpha_amount: "Alpha Amount",
-        bravo_amount: "Bravo Amount"
+        bravo_amount: "Bravo Amount",
+        settings: "Settings"
     },
 }
