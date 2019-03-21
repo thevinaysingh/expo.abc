@@ -84,17 +84,17 @@ export default class UpdatesScreen extends React.Component {
 
   onPressCross = (item, itemIndex, list, listIndex) => {
     const { onUpdateCharlieScore } = this.props.screenProps;
-    if(item.status != 0) {
-      return;
-    }
+    // if(item.status != 0) {
+    //   return;
+    // }
     onUpdateCharlieScore(item, itemIndex, list, listIndex);
   }
 
   onPressTick = (item, itemIndex, list, listIndex) => {
     const { onUpdateAlphaScore } = this.props.screenProps;
-    if(item.status != 0) {
-      return;
-    }
+    // if(item.status != 0) {
+    //   return;
+    // }
     onUpdateAlphaScore(item, itemIndex, list, listIndex);
   }
   

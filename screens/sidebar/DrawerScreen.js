@@ -11,6 +11,7 @@ class DrawerScreen extends Component {
   }
 
   onPurchaseFullVersion() {
+    this.props.screenProps.onChangeFullVersion(true);
     this.props.screenProps.onSetItemWithKey(APP_CONSTANTS.IS_PURCHASED_FULL_VERSION, true, "isFullVersionAvailable");
     this.props.navigation.closeDrawer();
   }

@@ -22,7 +22,7 @@ const ListItem = props => (
       </View>
       <View style={{ width:80, height:80, justifyContent:'center' }}>
       {
-        props.score <= props.item.number &&
+        props.score >= props.item.number &&
           <Image
             onPress={() => props.onPress(props.item.number)}
             style={{ width: 50, height: 50 }}

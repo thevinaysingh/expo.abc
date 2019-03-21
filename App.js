@@ -72,6 +72,15 @@ export default class App extends React.Component {
     }
   }
 
+  async onChangeFullVersion(isFull) {
+    try {
+      await AsyncStorage.setItem(APP_CONSTANTS.IS_PURCHASED_FULL_VERSION, JSON.stringify(isFull));
+      this.setState({ isFullVersionAvailable: isFull });
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
   async onChangeUpdateAvaialble2(isAvailable) {
     console.warn(isAvailable);
     try {
@@ -203,9 +212,6 @@ export default class App extends React.Component {
     try {
       await AsyncStorage.setItem(APP_CONSTANTS.BRAVO_DATA, JSON.stringify(bravoDateWiseList));
       await AsyncStorage.setItem(APP_CONSTANTS.BRAVO_LIST, JSON.stringify(bravoList));
- 
-      console.warn("bravoDateWiseList", bravoDateWiseList);
-      console.warn("bravoList", bravoList);
       this.setState({
         bravoDateWiseList,
         bravoList,
@@ -235,7 +241,7 @@ export default class App extends React.Component {
     const indx = bravoList.findIndex(bl => bl.id === item.id );
     bravoList[indx].status = -1;
     let alphaNumber = this.state.alphaScore;
-    alphaNumber = alphaNumber + item.alpha_amount;
+    alphaNumber = Number.parseInt(alphaNumber) + Number.parseInt(item.alpha_amount);
 
     try {
       await AsyncStorage.setItem(APP_CONSTANTS.BRAVO_DATA, JSON.stringify(bravoDateWiseList));
@@ -265,7 +271,7 @@ export default class App extends React.Component {
     const indx = bravoList.findIndex(bl => bl.id === item.id );
     bravoList[indx].status = -1;
     let charlieNumber = this.state.charlieScore;
-    charlieNumber = charlieNumber + item.charlie_amount;
+    charlieNumber = Number.parseInt(charlieNumber) + Number.parseInt(item.charlie_amount);
 
     try {
       await AsyncStorage.setItem(APP_CONSTANTS.BRAVO_DATA, JSON.stringify(bravoDateWiseList));
@@ -287,6 +293,39 @@ export default class App extends React.Component {
     //   charlieNumber = charlieNumber - num;
     //   this.setItemWithKey(APP_CONSTANTS.CHARLIE_SCORE, charlieNumber, "charlieScore")
     // }
+  }
+
+  async onUpdateAlphaNumber(num) {
+    let alphaNumber = this.state.alphaScore;
+    if(this.state.alphaScore >= num) {
+      alphaNumber = Number.parseInt(alphaNumber) - Number.parseInt(num);
+    }
+    try {
+      await AsyncStorage.setItem(APP_CONSTANTS.ALPHA_SCORE, JSON.stringify(alphaNumber));
+
+      this.setState({
+        alphaScore: alphaNumber,
+      });
+    } catch (error) {
+      console.warn(error);
+    }
+  }
+
+  async onUpdateCharlieNumber(num) {
+    let charlieNumber = this.state.charlieScore;
+    
+    if(this.state.charlieScore >= num) {
+      charlieNumber = Number.parseInt(charlieNumber) - Number.parseInt(num);
+    }
+    try {
+      await AsyncStorage.setItem(APP_CONSTANTS.ALPHA_SCORE, JSON.stringify(charlieNumber));
+
+      this.setState({
+        charlieScore: charlieNumber,
+      });
+    } catch (error) {
+      console.warn(error);
+    }
   }
 
   render() {
@@ -312,8 +351,11 @@ export default class App extends React.Component {
               onUpdateNotificationTime: (nt) => this.onUpdateNotificationTime(nt),
               onSetItemWithKey: (key, value, stateKey) => this.setItemWithKey(key, value, stateKey),
               onChangeUpdateAvaialble: (isAvailable) => this.onChangeUpdateAvaialble(isAvailable),
+              onChangeFullVersion: (isFull) => this.onChangeFullVersion(isFull),
               onUpdateAlphaScore: (item, itemIndex, list, listIndex) => this.onUpdateAlphaScore(item, itemIndex, list, listIndex),
-              onUpdateCharlieScore: (item, itemIndex, list, listIndex) => this.onUpdateAlphaScore(item, itemIndex, list, listIndex),
+              onUpdateCharlieScore: (item, itemIndex, list, listIndex) => this.onUpdateCharlieScore(item, itemIndex, list, listIndex),
+              onUpdateAlphaNumber: (num) => this.onUpdateAlphaNumber(num),
+              onUpdateCharlieNumber: (num) => this.onUpdateCharlieNumber(num),
             }}
           />
         </View>
