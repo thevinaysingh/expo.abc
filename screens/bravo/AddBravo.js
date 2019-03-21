@@ -16,27 +16,6 @@ const typeData = [{
   }, 
 ];
 
-
-
-  const amount = [{
-      value: '1000',
-      },
-       {
-        value: '2000',
-      }, 
-
-      {
-          value: '3000',
-        }, 
-        {
-          value: '4000',
-        }, 
-
-        {
-          value: '5000',
-        }, 
-      ];
-
 export default class AddBravo extends React.Component {
   constructor(props) {
     super(props);
@@ -44,7 +23,7 @@ export default class AddBravo extends React.Component {
       name: '',
       type: '',
       alphaAmount: '',
-      bravoAmount: '',
+      charlieAmount: '',
     };
   }
 
@@ -62,17 +41,20 @@ export default class AddBravo extends React.Component {
 
   onSave() {
     if(this.state.name.trim() === "" || this.state.type.trim() === ""
-    || this.state.bravoAmount.trim() === "" || this.state.alphaAmount.trim() === "" ) {
+    || this.state.charlieAmount.trim() === "" || this.state.alphaAmount.trim() === "" ) {
       Alert.alert('Fill all fields');
       return;
     }
+
     this.props.navigation.state.params.onSave({
       name: this.state.name,
       type: this.state.type,
       id: Date.now().toString(),
-      bravo_amount: this.state.bravoAmount,
+      charlie_amount: this.state.charlieAmount,
       alpha_amount: this.state.alphaAmount,
+      status: 0,
     });
+
     this.props.navigation.goBack();
   }
 
@@ -97,23 +79,19 @@ export default class AddBravo extends React.Component {
             />
           </View>
 
-          <View style={styles.dropdownContainer}>
-            <Dropdown
-              labelFontSize={18}
-              label={Locales.GENERAL.alpha_amount}
-              data={amount}
-              onChangeText={(value, index, data) => this.onChangeDropDownText("alphaAmount", value, index, data)}
-            />
-          </View>
+          <TextField
+            label={Locales.GENERAL.alpha_amount}
+            value={this.state.alphaAmount}
+            labelFontSize={18}
+            onChangeText={text => this.onChange("alphaAmount", text) }
+          />
 
-          <View style={styles.dropdownContainer}>
-            <Dropdown
-              labelFontSize={18}
-              label={Locales.GENERAL.bravo_amount}
-              data={amount}
-              onChangeText={(value, index, data) => this.onChangeDropDownText("bravoAmount", value, index, data)}
-            />
-          </View>
+          <TextField
+            label={Locales.GENERAL.charlie_amount}
+            value={this.state.charlieAmount}
+            labelFontSize={18}
+            onChangeText={text => this.onChange("charlieAmount", text) }
+          />
 
         </View>
 

@@ -28,6 +28,9 @@ export const Locales = {
         number: "Number",
         alpha_amount: "Alpha Amount",
         bravo_amount: "Bravo Amount",
-        settings: "Settings"
+        charlie_amount: "Charlie Amount",
+        settings: "Settings",
+        updates: "Updates",
+        no_items_available: "No items available!"
     },
 }

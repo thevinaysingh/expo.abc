@@ -18,6 +18,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-material-textfield": "0.6.0",
+    "react-native-modal-datetime-picker": "^6.1.0",
     "react-navigation": "^3.0.9",
     "uuid": "^3.3.2"
   },

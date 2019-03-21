@@ -3,45 +3,85 @@ import { Text, View, StyleSheet, CheckBox } from 'react-native';
 import MenuIcon from '../components/MenuIcon.js';
 import { Locales } from '../constants/locales.js';
 import TwoButtonFooter from '../components/TwoButtonFooter.js';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import { getFormatTime } from '../utils/Helper.js';
 
 export default class SettingsScreen extends React.Component {
 
   state = {
+    isDateTimePickerVisible: false,
+    pickedDate: "",
     checked: false,
   }
 
-  static navigationOptions = ({ navigation }) => ({
-    title: Locales.GENERAL.settings,
-    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} />)
-  });
-
-  press = () => {
-    this.setState({checked: !state.checked});
+  componentWillMount() {
+    this.setState({
+      pickedDate: this.props.screenProps.notificationTime,
+      checked: this.props.screenProps.isNotificationChecked,
+    });
   }
 
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+ 
+  _handleDatePicked = (date) => {
+    this.setState({
+      pickedDate: date.toString(),
+    });
+  };
+
+  static navigationOptions = ({ navigation, screenProps }) => ({
+    title: Locales.GENERAL.settings,
+    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} screenProps={screenProps} />)
+  });
+
   onSave() {
-    // TODO:
+    const { onUpdateNotificationTime, onUpdateNotificationSettings } = this.props.screenProps;
+    const { pickedDate, checked } = this.state;
+    onUpdateNotificationTime(pickedDate);
+    onUpdateNotificationSettings(checked);
+    this.props.navigation.goBack()
   }
   
 
   render() {
+    const { onUpdateNotificationSettings, isNotificationChecked, notificationTime } = this.props.screenProps;
     return (
       <View style = {styles.container}>
         <View style={{ flex: 1, marginTop: 60, paddingLeft: 20}}>
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <CheckBox
-              onPress={this.press}
-              checked={this.state.checked}
+              value={Boolean(this.state.checked)}
+              onValueChange={(checked) => this.setState({ checked })}
             />
             <Text style={{ fontSize: 16 }}>
               Notifications Enabled</Text>
           </View>
 
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={{ fontSize: 16 }}>
-              Notify daily at 9: 30 PM </Text>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+
+            <View style={{ flexDirection: "row" }} >
+
+              <Text style={{ fontSize: 16 }}> Notify daily at </Text>
+
+              <Text onPress={this._showDateTimePicker}
+                style={{
+                  fontSize: 16,
+                  borderWidth: 2,
+                  borderColor: 'grey',
+                  paddingHorizontal: 3,
+                  }}
+                > {getFormatTime(this.state.pickedDate)} </Text>
+            </View>
+            
           </View>
+
+          <DateTimePicker
+            mode="time"
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={(d) => this._handleDatePicked(d)}
+            onCancel={() => console.log('Cancelled')}
+          />
 
         </View>
 

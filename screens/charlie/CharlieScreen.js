@@ -15,44 +15,23 @@ import MenuIcon from '../../components/MenuIcon.js';
 export default class CharlieScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      charlieList: [],
-    };
   }
 
-  componentWillMount() {
-    this._retrieveData();
-  }
+  _storeData = (newJson) => {
+    const { isFullVersionAvailable, charlieList, onSetCharlie } = this.props.screenProps;
 
-  _storeData = async (newJson) => {
-    const { charlieList } = this.state;
-    charlieList.push(newJson);
-    try {
-      await AsyncStorage.setItem('CHARLIE_DATA', JSON.stringify(charlieList));
-      this.setState({ charlieList });
-    } catch (error) {
-      console.warn(error);
-      // Error saving data
+    if(charlieList.length == 2 && !isFullVersionAvailable) {
+      alert("Purchase full version to add more.");
+      return;
     }
+
+    onSetCharlie(newJson);
   };
 
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('CHARLIE_DATA');
-      if (value !== null) {
-        this.setState({
-          charlieList: Array.from(JSON.parse(value)),
-        })
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  };
-
-
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({ navigation, screenProps }) => ({
     title: Locales.CHARLIE.title,
-    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} />)
+    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} screenProps={screenProps} />),
+    headerRight: ( <Text style={styles.rightNavText}>{screenProps.charlieScore}</Text>)
   });
 
   onPress() {
@@ -60,9 +39,12 @@ export default class CharlieScreen extends React.Component {
   }
 
   render() {
+
+    const { charlieList, charlieScore, onUpdateCharlieScore } = this.props.screenProps;
+
     return (
       <View style={styles.mainContainer}>
-        {this.state.charlieList.length === 0 &&
+        {charlieList.length === 0 &&
           <Text
             style={{
               paddingVertical: 30,
@@ -71,10 +53,16 @@ export default class CharlieScreen extends React.Component {
           >{Locales.CHARLIE.no_items}</Text>}
         <FlatList
           style={{ flex: 1, alignSelf: 'stretch', marginHorizontal: 20 }}
-          data={this.state.charlieList} 
-          extraData={this.state}
+          data={charlieList} 
+          extraData={this.props.screenProps}
           keyExtractor={(item, index) => item.id.toString()}       
-          renderItem={({ item }) => <ListItem item={item} /> }
+          renderItem={({ item }) =>
+            <ListItem
+              item={item}
+              score={charlieScore}
+              onPress={(num) => onUpdateCharlieScore(num)}
+            />
+          }
           ItemSeparatorComponent={() => <ListSeparator />}
         />
         <FloatingButton onPress={() => this.onPress()} />
@@ -90,4 +78,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  rightNavText: {
+    fontSize: 14,
+    paddingHorizontal: 10
+  }
 });

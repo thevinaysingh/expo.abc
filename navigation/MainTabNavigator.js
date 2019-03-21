@@ -14,6 +14,7 @@ import CharlieScreen from '../screens/charlie/CharlieScreen';
 import AddCharlie from '../screens/charlie/AddCharlie';
 
 import Settings from '../screens/Settings';
+import Updates from '../screens/Updates';
 
 import { Locales } from '../constants/locales';
 
@@ -29,6 +30,10 @@ const AlphaStack = createStackNavigator({
   Settings: {
     screen: Settings,
     key: 'SettingsScreen'
+  },
+  Updates: {
+    screen: Updates,
+    key: 'UpdatesScreen'
   },
 });
 

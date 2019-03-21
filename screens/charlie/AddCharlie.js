@@ -33,6 +33,7 @@ export default class AddCharlie extends React.Component {
       name: this.state.name,
       number: this.state.number,
       id: Date.now().toString(),
+      url: Images.shoppingCart,
     });
     this.props.navigation.goBack();
   }

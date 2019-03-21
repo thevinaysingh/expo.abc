@@ -15,43 +15,22 @@ import MenuIcon from '../../components/MenuIcon.js';
 export default class BravoScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      bravoList: [],
-    };
   }
 
-  componentWillMount() {
-    this._retrieveData();
-  }
+  _storeData = (newJson) => {
+    const { isFullVersionAvailable, bravoList, onSetBravo } = this.props.screenProps;
 
-  _storeData = async (newJson) => {
-    const { bravoList } = this.state;
-    bravoList.push(newJson);
-    try {
-      await AsyncStorage.setItem('BRAVO_DATA', JSON.stringify(bravoList));
-      this.setState({ bravoList });
-    } catch (error) {
-      console.warn(error);
-      // Error saving data
+    if(bravoList.length == 2 && !isFullVersionAvailable) {
+      alert("Purchase full version to add more.");
+      return;
     }
+
+    onSetBravo(newJson);
   };
 
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('BRAVO_DATA');
-      if (value !== null) {
-        this.setState({
-          bravoList: Array.from(JSON.parse(value)),
-        })
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  };
-
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({ navigation , screenProps}) => ({
     title: Locales.BRAVO.title,
-    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} />)
+    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} screenProps={screenProps} />)
   });
 
   onPress() {
@@ -59,9 +38,10 @@ export default class BravoScreen extends React.Component {
   }
 
   render() {
+    const { bravoList } = this.props.screenProps;
     return (
       <View style={styles.mainContainer}>
-        {this.state.bravoList.length === 0 &&
+        {bravoList.length === 0 &&
           <Text
             style={{
               paddingVertical: 30,
@@ -70,8 +50,8 @@ export default class BravoScreen extends React.Component {
           >{Locales.BRAVO.no_items}</Text>}
         <FlatList
           style={{ flex: 1, alignSelf: 'stretch', marginHorizontal: 20 }}
-          data={this.state.bravoList} 
-          extraData={this.state}
+          data={bravoList} 
+          extraData={this.props.screenProps}
           keyExtractor={(item, index) => item.id.toString()}       
           renderItem={({ item }) => <ListItem item={item} /> }
           ItemSeparatorComponent={() => <ListSeparator />}

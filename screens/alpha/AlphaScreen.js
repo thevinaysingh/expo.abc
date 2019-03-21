@@ -12,47 +12,24 @@ import FloatingButton from '../../components/FloatingButton.js';
 import { Locales } from '../../constants/locales.js';
 import MenuIcon from '../../components/MenuIcon.js';
 
-
 export default class AlphaScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      alphaList: [],
-    };
   }
 
-  componentWillMount() {
-    this._retrieveData();
-  }
-
-  _storeData = async (newJson) => {
-    const { alphaList } = this.state;
-    alphaList.push(newJson);
-    try {
-      await AsyncStorage.setItem('ALPHA_DATA', JSON.stringify(alphaList));
-      this.setState({ alphaList });
-    } catch (error) {
-      console.warn(error);
-      // Error saving data
+  _storeData = (newJson) => {
+    const { isFullVersionAvailable, alphaList, onSetAlpha } = this.props.screenProps;
+    if(alphaList.length == 2 && !isFullVersionAvailable) {
+      alert("Purchase full version to add more.");
+      return;
     }
+    onSetAlpha(newJson);
   };
 
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('ALPHA_DATA');
-      if (value !== null) {
-        this.setState({
-          alphaList: Array.from(JSON.parse(value)),
-        })
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  };
-
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = ({ navigation, screenProps }) => ({
     title: Locales.ALPHA.title,
-    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} />)
+    headerLeft: ( <MenuIcon onPress={() => navigation.openDrawer()} screenProps={screenProps} />),
+    headerRight: ( <Text style={styles.rightNavText} >{screenProps.alphaScore}</Text>)
   });
 
   onPress() {
@@ -60,9 +37,10 @@ export default class AlphaScreen extends React.Component {
   }
 
   render() {
+    const { alphaList, alphaScore, onUpdateAlphaScore } = this.props.screenProps;
     return (
       <View style={styles.mainContainer}>
-        {this.state.alphaList.length === 0 &&
+        {alphaList.length === 0 &&
           <Text
             style={{
               paddingVertical: 30,
@@ -71,10 +49,16 @@ export default class AlphaScreen extends React.Component {
           >{Locales.ALPHA.no_items}</Text>}
         <FlatList
           style={{ flex: 1, alignSelf: 'stretch', marginHorizontal: 20 }}
-          data={this.state.alphaList} 
-          extraData={this.state}
+          data={alphaList} 
+          extraData={this.props.screenProps}
           keyExtractor={(item, index) => item.id.toString()}       
-          renderItem={({ item }) => <ListItem item={item} /> }
+          renderItem={({ item }) =>
+            <ListItem
+              item={item}
+              score={alphaScore}
+              onPress={() => onUpdateAlphaScore(props.item.number)}
+            />
+          }
           ItemSeparatorComponent={() => <ListSeparator />}
         />
         <FloatingButton onPress={() => this.onPress()} />
@@ -90,4 +74,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  rightNavText: {
+    fontSize: 14,
+    paddingHorizontal: 10
+  }
 });
