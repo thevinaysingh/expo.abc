@@ -80,7 +80,7 @@ export default class SettingsScreen extends React.Component {
             mode="time"
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={(d) => this._handleDatePicked(d)}
-            onCancel={() => console.log('Cancelled')}
+            onCancel={() => this.setState({ isDateTimePickerVisible: false })}
           />
 
         </View>

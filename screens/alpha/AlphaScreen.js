@@ -37,7 +37,7 @@ export default class AlphaScreen extends React.Component {
   }
 
   render() {
-    const { alphaList, alphaScore, onUpdateAlphaScore } = this.props.screenProps;
+    const { alphaList, alphaScore, onUpdateAlphaNumber } = this.props.screenProps;
     return (
       <View style={styles.mainContainer}>
         {alphaList.length === 0 &&
@@ -56,7 +56,7 @@ export default class AlphaScreen extends React.Component {
             <ListItem
               item={item}
               score={alphaScore}
-              onPress={() => onUpdateAlphaScore(props.item.number)}
+              onPress={(num) => onUpdateAlphaNumber(num)}
             />
           }
           ItemSeparatorComponent={() => <ListSeparator />}

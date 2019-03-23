@@ -223,12 +223,6 @@ export default class App extends React.Component {
   }
 
   async onUpdateAlphaScore(item, itemIndex, list, listIndex) {
-    // if(this.state.alphaScore >= num) {
-    //   let alphaNumber = this.state.alphaScore;
-    //   alphaNumber = alphaNumber - num;
-    //   this.setItemWithKey(APP_CONSTANTS.ALPHA_SCORE, alphaNumber, "alphaScore")
-    // }
-
 
     if(item.status != 0) {
       return;
@@ -253,6 +247,7 @@ export default class App extends React.Component {
         bravoList,
         alphaScore: alphaNumber,
       });
+      alert("You have selected the item. It updates the alpha global score. Current alpha score is " + alphaNumber);
     } catch (error) {
       console.warn(error);
     }
@@ -283,16 +278,13 @@ export default class App extends React.Component {
         bravoList,
         charlieScore: charlieNumber,
       });
+
+      alert("You have rejected the item. It updates the charlie global score. Current charlie score is " + charlieNumber);
+
     } catch (error) {
       console.warn(error);
       // Error saving data
     }
-
-    // if(this.state.charlieScore >= num) {
-    //   let charlieNumber = this.state.charlieScore;
-    //   charlieNumber = charlieNumber - num;
-    //   this.setItemWithKey(APP_CONSTANTS.CHARLIE_SCORE, charlieNumber, "charlieScore")
-    // }
   }
 
   async onUpdateAlphaNumber(num) {
@@ -306,6 +298,8 @@ export default class App extends React.Component {
       this.setState({
         alphaScore: alphaNumber,
       });
+
+      alert(num + " Points deducted from alpha global score");
     } catch (error) {
       console.warn(error);
     }
@@ -323,6 +317,7 @@ export default class App extends React.Component {
       this.setState({
         charlieScore: charlieNumber,
       });
+      alert(num + " Points deducted from charlie global score");
     } catch (error) {
       console.warn(error);
     }

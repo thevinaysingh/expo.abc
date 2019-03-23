@@ -40,7 +40,7 @@ export default class CharlieScreen extends React.Component {
 
   render() {
 
-    const { charlieList, charlieScore, onUpdateCharlieScore } = this.props.screenProps;
+    const { charlieList, charlieScore, onUpdateCharlieNumber } = this.props.screenProps;
 
     return (
       <View style={styles.mainContainer}>
@@ -60,7 +60,7 @@ export default class CharlieScreen extends React.Component {
             <ListItem
               item={item}
               score={charlieScore}
-              onPress={(num) => onUpdateCharlieScore(num)}
+              onPress={(num) => onUpdateCharlieNumber(num)}
             />
           }
           ItemSeparatorComponent={() => <ListSeparator />}

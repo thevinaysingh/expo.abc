@@ -121,4 +121,6 @@ export default createBottomTabNavigator({
   AlphaStack,
   BravoStack,
   CharlieStack,
+}, {
+  initialRouteName: 'BravoStack',
 });
