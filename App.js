@@ -8,7 +8,7 @@ export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
     isFullVersionAvailable: false,
-    isUpdatesAvailable: false,
+    isUpdatesAvailable: true,
     alphaScore: 0,
     charlieScore: 0,
     bravoList: [],
@@ -52,13 +52,13 @@ export default class App extends React.Component {
           const timeDiffInSeconds = notiTimeInSeconds - currenTimeInSeconds;
 
           if(timeDiffInSeconds > 0 && this.state.isNotificationChecked) {
-            console.warn(timeDiffInSeconds)
+            
             setTimeout(() => this.onChangeUpdateAvaialble2(true), timeDiffInSeconds * 1000);
           }
         });
       }
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -68,7 +68,7 @@ export default class App extends React.Component {
       this.setState({ isUpdatesAvailable: isAvailable });
       this.fetchUpdateTime();
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -77,18 +77,18 @@ export default class App extends React.Component {
       await AsyncStorage.setItem(APP_CONSTANTS.IS_PURCHASED_FULL_VERSION, JSON.stringify(isFull));
       this.setState({ isFullVersionAvailable: isFull });
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
   async onChangeUpdateAvaialble2(isAvailable) {
-    console.warn(isAvailable);
+    
     try {
       await AsyncStorage.setItem(APP_CONSTANTS.IS_UPDATES_AVAIALBLE, JSON.stringify(isAvailable));
       this.setState({ isUpdatesAvailable: isAvailable });
 
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -98,7 +98,7 @@ export default class App extends React.Component {
       this.setState({ isNotificationChecked: isEnabled });
 
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -109,7 +109,7 @@ export default class App extends React.Component {
         this.fetchUpdateTime();
       });
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -122,7 +122,7 @@ export default class App extends React.Component {
         })
       }
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -131,7 +131,7 @@ export default class App extends React.Component {
       await AsyncStorage.setItem(key, value);
       this.setState({ [stateKey]:  value});
     } catch (error) {
-      console.warn(error);
+      
       // Error saving data
     }
   }
@@ -152,15 +152,15 @@ export default class App extends React.Component {
   async setJsonItemWithKey(key, value, stateKey) {
     try {
       await AsyncStorage.setItem(key, JSON.stringify(value));
-      console.warn("key", key);
-      console.warn("value", alphaList);
-      console.warn("stateKey", stateKey);
+      
+      
+      
       this.setState({
         [stateKey]: value,
       });
 
     } catch (error) {
-      console.warn(error);
+      
       // Error saving data
     }
   }
@@ -173,7 +173,7 @@ export default class App extends React.Component {
       this.setState({ alphaList });
 
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -185,7 +185,7 @@ export default class App extends React.Component {
       this.setState({ charlieList });
 
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -217,7 +217,7 @@ export default class App extends React.Component {
         bravoList,
       });
     } catch (error) {
-      console.warn(error);
+      
       // Error saving data
     }
   }
@@ -249,7 +249,7 @@ export default class App extends React.Component {
       });
       alert("You have selected the item. It updates the alpha global score. Current alpha score is " + alphaNumber);
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -282,7 +282,7 @@ export default class App extends React.Component {
       alert("You have rejected the item. It updates the charlie global score. Current charlie score is " + charlieNumber);
 
     } catch (error) {
-      console.warn(error);
+      
       // Error saving data
     }
   }
@@ -301,7 +301,7 @@ export default class App extends React.Component {
 
       alert(num + " Points deducted from alpha global score");
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -319,7 +319,7 @@ export default class App extends React.Component {
       });
       alert(num + " Points deducted from charlie global score");
     } catch (error) {
-      console.warn(error);
+      
     }
   }
 
@@ -377,7 +377,7 @@ export default class App extends React.Component {
   _handleLoadingError = error => {
     // In this case, you might want to report the error to your error
     // reporting service, for example Sentry
-    console.warn(error);
+    
   };
 
   _handleFinishLoading = () => {

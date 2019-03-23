@@ -7,12 +7,16 @@ const { width } = Dimensions.get('window');
 const height = width * 0.8
 
 export default class SimpleCarousel extends Component {
+
+  scrollView = null;
+
   render() {
     const { lists } = this.props;
     if (lists && lists.length) {
       return (
         <View style={styles.scrollContainer}>
           <ScrollView
+            ref={(scrollView => { this.scrollView = scrollView })}
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
@@ -20,9 +24,21 @@ export default class SimpleCarousel extends Component {
             {lists.map((list, listIndex)=> (
               <View key={"item-"+listIndex} style={styles.itemContainer}>
                 <View style={styles.itemInnerContainer}>
-                  <Icon.Ionicons name={"md-arrow-back"} size={30} />
+                  {
+                    (lists.length > 1 && listIndex != 0) && 
+                    <Icon.Ionicons
+                      onPress={() => this.scrollView.scrollTo({x: (listIndex - 1) * width }) }
+                      name={"md-arrow-back"} size={30}
+                    />
+                  }
                   <Text style={styles.itemTitle}>{list.label}</Text>
-                  <Icon.Ionicons name={"md-arrow-forward"} size={30} />
+                  {
+                    (lists.length > 1 && listIndex + 1 != lists.length) && 
+                    <Icon.Ionicons
+                      onPress={() => this.scrollView.scrollTo({x: (listIndex + 1) * width }) }
+                      name={"md-arrow-forward"} size={30}
+                    />
+                  }
                 </View>
 
                 {
